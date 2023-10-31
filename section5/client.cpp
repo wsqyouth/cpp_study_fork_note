@@ -4,7 +4,7 @@
 // g++ client.cpp -std=c++14 -I../common -I../common/include -lzmq -lpthread -g -O0 -o c.out
 // g++ client.cpp -std=c++14 -I../common -I../common/include -lzmq -lpthread -g -O0 -o c.out;./c.out
 
-//#include <iostream>
+// #include <iostream>
 
 #include "cpplang.hpp"
 #include "SalesData.hpp"
@@ -16,8 +16,7 @@
 USING_NAMESPACE(std);
 USING_NAMESPACE(cpp_study);
 
-static
-auto debug_print = [](auto& b)
+static auto debug_print = [](auto &b)
 {
     using json_t = nlohmann::json;
 
@@ -26,14 +25,13 @@ auto debug_print = [](auto& b)
     j["id"] = b.id();
     j["sold"] = b.sold();
     j["revenue"] = b.revenue();
-    //j["average"] = b.average();
+    // j["average"] = b.average();
 
     std::cout << j.dump(2) << std::endl;
 };
 
 // sales data
-static
-auto make_sales = [=](const auto& id, auto s, auto r)
+static auto make_sales = [=](const auto &id, auto s, auto r)
 //-> msgpack::sbuffer
 {
     return SalesData(id, s, r).pack();
@@ -58,8 +56,7 @@ auto make_sales = [=](const auto& id, auto s, auto r)
 };
 
 // zmq send
-static
-auto send_sales = [](const auto& addr, const auto& buf)
+static auto send_sales = [](const auto &addr, const auto &buf)
 {
     using zmq_ctx = ZmqContext<1>;
 
@@ -79,19 +76,22 @@ try
 {
     cout << "hello cpp_study client" << endl;
 
-    //auto buf = make_sales("001", 10, 100);
-    //send_sales("tcp://127.0.0.1:5555", buf);
+    // auto buf = make_sales("001", 10, 100);
+    // send_sales("tcp://127.0.0.1:5555", buf);
 
     send_sales("tcp://127.0.0.1:5555",
-             make_sales("001", 10, 100));
+               make_sales("001", 10, 100));
 
     std::this_thread::sleep_for(100ms);
 
     send_sales("tcp://127.0.0.1:5555",
-             make_sales("002", 20, 200));
-
+               make_sales("002", 20, 200));
 }
-catch(std::exception& e)
+catch (std::exception &e)
 {
     std::cerr << e.what() << std::endl;
 }
+
+/*
+序列化，再用 ZMQ 发送
+*/

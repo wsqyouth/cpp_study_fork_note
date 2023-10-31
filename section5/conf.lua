@@ -3,7 +3,7 @@
 -- lua is more flexible than json
 -- you can use comment/expression
 -- and more lua pragram
-
+-- 包含了几个简单的值，配置了服务器的地址、时间间隔、缓冲区大小等信息
 config = {
 
     -- should be same as client
