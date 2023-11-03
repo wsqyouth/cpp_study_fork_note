@@ -48,18 +48,19 @@ void quick_sort_impl(T& v, int left, int right)
 }
 */
 
+#if 0
 int main()
 {
-    std::vector<int> v = {42,9,4,2,5,10,1,0};
+    std::vector<int> v = {42, 9, 4, 2, 5, 10, 1, 0};
     int len = v.size();
 
     // -----------------------------
 
     auto bubble_sort = [=]() mutable
     {
-        for(int i = 0;i < len - 1; i++)
+        for (int i = 0; i < len - 1; i++)
         {
-            for(int j = 0; j < len - i - 1; j++)
+            for (int j = 0; j < len - i - 1; j++)
             {
                 if (v[j] > v[j + 1])
                 {
@@ -68,7 +69,7 @@ int main()
             }
         }
 
-        for(auto& x : v)
+        for (auto &x : v)
         {
             cout << x << ',';
         }
@@ -85,7 +86,7 @@ int main()
         for (int i = 0; i < len - 1; i++)
         {
             int min = i;
-            for(int j = i + 1; j < len; j ++)
+            for (int j = i + 1; j < len; j++)
             {
                 if (v[min] > v[j])
                 {
@@ -96,7 +97,7 @@ int main()
             }
         }
 
-        for(auto& x : v)
+        for (auto &x : v)
         {
             cout << x << ',';
         }
@@ -111,10 +112,10 @@ int main()
     auto insert_sort = [=]() mutable
     {
         int i, j;
-        for(i = 0;i < len; i++)
+        for (i = 0; i < len; i++)
         {
             int tmp = v[i];
-            for(j = i; j > 0 && v[j - 1] > tmp; j--)
+            for (j = i; j > 0 && v[j - 1] > tmp; j--)
             {
                 v[j] = v[j - 1];
             }
@@ -122,7 +123,7 @@ int main()
             v[j] = tmp;
         }
 
-        for(auto& x : v)
+        for (auto &x : v)
         {
             cout << x << ',';
         }
@@ -134,7 +135,7 @@ int main()
 
     // -----------------------------
 
-    auto quick_partition = [](decltype(v)& arr, int left, int right)
+    auto quick_partition = [](decltype(v) &arr, int left, int right)
     {
         // key => value type => int
         decltype(v.front()) key = arr[right];
@@ -155,10 +156,10 @@ int main()
         return i;
     };
 
-    std::function<void(decltype(v)&,int, int)> quick_sort_impl;
+    std::function<void(decltype(v) &, int, int)> quick_sort_impl;
 
     quick_sort_impl =
-    [&quick_sort_impl, &quick_partition](decltype(v)& v,int left, int right)
+        [&quick_sort_impl, &quick_partition](decltype(v) &v, int left, int right)
     {
         if (left > right)
         {
@@ -175,7 +176,7 @@ int main()
     {
         quick_sort_impl(v, 0, len - 1);
 
-        for(auto& x : v)
+        for (auto &x : v)
         {
             cout << x << ',';
         }
@@ -184,4 +185,49 @@ int main()
     };
 
     quick_sort();
+}
+#endif
+// ----------------------------------------------------------------普通版本的快排
+
+void quick_sort(int arr[], int left, int right)
+{
+    if (left >= right)
+    {
+        return;
+    }
+    int pivot = arr[left];
+    int i = left + 1, j = right;
+    while (i <= j)
+    {
+        if (arr[i] > pivot && arr[j] < pivot)
+        {
+            std::swap(arr[i], arr[j]);
+            i++;
+            j--;
+        }
+        if (arr[i] <= pivot)
+        {
+            i++;
+        }
+        if (arr[j] >= pivot)
+        {
+            j--;
+        }
+    }
+    std::swap(arr[left], arr[j]);
+    quick_sort(arr, left, j - 1);
+    quick_sort(arr, j + 1, right);
+}
+
+int main()
+{
+    int arr[] = {3, 6, 8, 10, 1, 2, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    quick_sort(arr, 0, n - 1);
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    return 0;
 }

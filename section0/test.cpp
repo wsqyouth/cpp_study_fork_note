@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-//#include "std.hpp"
+// #include "std.hpp"
 
 int main()
 {
@@ -22,8 +22,12 @@ int main()
 
     // check __GLIBCXX__ for macos
 #ifndef __GLIBCXX__
-#   define __GLIBCXX__ "unkown version,please check or config your gcc path,or your OS not surpport."
+#define __GLIBCXX__ "unkown version,please check or config your gcc path,or your OS not surpport."
 #endif
 
     cout << "libstdc++ = " << __GLIBCXX__ << endl;
 }
+
+/*
+这里主要学习的就是cpp的各种宏定义，方便过滤版本使用
+*/
